@@ -40,7 +40,7 @@ const Home: NextPage = () => {
           <Heading title="Top 500 TMDB movies" />
           <Select options={SORT_OPTIONS} handleChange={handleSortChange} defaultValue={sort} label="Sort By Rank: " />
         </div>
-        <MoviesList sortBy={sort} maxLimit={1000} />
+        <MoviesList sortBy={sort} />
       </main>
     </div>
   )
