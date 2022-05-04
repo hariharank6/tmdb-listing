@@ -130,13 +130,13 @@ export const MoviesList = ({ sortBy, maxLimit = 500 }: MoviesListProps): ReactEl
 
   // To load movies from API. It'll be called automatically by the virtualization library
   const loadMovies = useCallback(
-    (startIndex: number, endIndex: number) => {
+    async (startIndex: number, endIndex: number) => {
       const startPage = Math.ceil((startIndex + 1) / MAX_API_RESPONSE)
       const endPage = Math.ceil((endIndex + 1) / MAX_API_RESPONSE)
-      const networkCallArray: Promise<Response>[] = []
+      const networkCalls: Promise<Response>[] = []
       for (let i = startPage; i <= endPage; i++) {
         if (i > lastLoadedPage.current) {
-          networkCallArray.push(
+          networkCalls.push(
             fetch(
               `${process.env.NEXT_PUBLIC_TMDB_API_ENDPOINT}/3/movie/top_rated?api_key=${
                 process.env.NEXT_PUBLIC_TMDB_API_KEY
@@ -151,18 +151,17 @@ export const MoviesList = ({ sortBy, maxLimit = 500 }: MoviesListProps): ReactEl
       }
       lastLoadedPage.current = endPage
 
-      return Promise.allSettled(networkCallArray)
-        .then(resp => {
-          const result = resp.map(resp => {
-            if (resp.status === 'fulfilled') {
-              return resp.value
-            }
-          })
-          addMoviesToList(result.flat() as unknown as movieResponseType[])
+      try {
+        const response = await Promise.allSettled(networkCalls)
+        const results = response.map(result => {
+          if (result.status === 'fulfilled') {
+            return result.value
+          }
         })
-        .catch(error => {
-          console.log('Error: ', error)
-        })
+        addMoviesToList(results.flat() as unknown as movieResponseType[])
+      } catch (error) {
+        console.log('Error: ', error)
+      }
     },
     [addMoviesToList, maxLimit, sortBy]
   )
