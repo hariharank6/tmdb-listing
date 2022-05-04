@@ -1,0 +1,11 @@
+.heading {
+  font-size: 24px;
+  text-align: center;
+  color: #fcf7fb;
+}
+
+@media (min-width: 768px) {
+  .heading {
+    font-size: 32px;
+  }
+}

@@ -1,0 +1,17 @@
+.selectContainer {
+  padding: 8px;
+  width: 120px;
+  background: #3e4b5b;
+  color: #fcf7fb;
+  font-weight: 500;
+}
+
+.selectOption {
+  border-radius: 0;
+}
+
+.label {
+  margin-right: 8px;
+  color: #fcf7fb;
+  font-weight: 500;
+}
