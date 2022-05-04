@@ -63,7 +63,9 @@ export const MoviesList = ({ sortBy, maxLimit = 500 }: MoviesListProps): ReactEl
             const movieRowStart = movieRow * gridRef.current.props.columnCount - gridRef.current.props.columnCount
             const movieRowEnd = movieRow * gridRef.current.props.columnCount
             for (let start = movieRowStart; start < movieRowEnd && start < maxLimit; start++) {
-              highlightedRowMoviesIds.push(updatedMoviesList[start].id)
+              if(start < updatedMoviesList.length) {
+                highlightedRowMoviesIds.push(updatedMoviesList[start].id)
+              }
             }
           }
         })
